@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+<head>
+    <link rel="stylesheet" href="{% static 'app/css/app.css' %}">
+    <title>Магазин товаров</title>
+</head>
+{% endblock %}
+{% block header %}
+<header>Список товаров</header>
+<form action="{% url 'product_search' %}" method="get" style="margin-top:10px; margin-left:20px;">
+    <input type="search" name="query" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+    <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>Поиск</button>
+</form>
+    <div class="href">
+        {% if not request.user.is_authenticated %}
+            <a href="{% url 'login' %}">Вход</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% else %}
+            <a href="{% url 'logout' %}">Выход</a>
+        {% endif %}
+    </div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'categories' %}">Категории</a></li>
+            <li><a href="{% url 'products' %}">Товары</a></li>
+            <li><a href="#">О нас</a></li>
+            <li><a href="#">Контакты</a></li>
+            {% if cart|length != 0 %}
+            <li><a href="{% url 'cart_detail' %}">Корзина (<span id="cartLengthHeader">{{cart|length}}</span>)</a></li>
+            {% else %}
+            <li><a href="{% url 'cart_detail' %}">Корзина <span id="cartLengthHeader"></span></a></li>
+            {% endif %}
+            {% if not request.user.is_authenticated %}
+            <li></li>
+            {% else %}
+            <li><a href="{% url 'orders' %}">Заказы</a></li>
+            {% endif %}
+            <li><a href="#">{{request.user}}</a></li>
+        </ul>
+    </nav>
+
+{% endblock %}
+
+{% block main %}
+<!-- <div>
+    <img class="prod" src="{% static 'app/img/prod.jpg' %}" />
+</div> -->
+<table>
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>PRICE</td>
+        <td>DESCRIPTION</td>
+        <td>CREATED</td>
+        <td>UPDATED</td>
+        <td>INFO</td>
+        <td>Category</td>
+        <td>Slug</td>
+
+    </tr>
+{% for product in products %}
+    <tr>
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.created }}</td>
+        <td>{{ product.updated }}</td>
+        <td><a href="{% url 'product_detail' product.slug %}" class="btn">Подробнее</a>
+
+                        <a href="{% url 'add_to_cart' product.slug %}" class="btn">Добавлено </a>
+
+                        <a href="{% url 'add_to_cart' product.slug %}" class="btn">В корзину</a>
+
+        </td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.slug }}</td>
+
+    </tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}
+
+
+{% block footer %}
+<footer>
+<span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo;Первая</a>
+    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+    {% endif %}
+
+    <span class="current">
+        Страница{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+    </span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя&raquo;</a>
+    {% endif %}
+</span>
+</footer>
+
+{% endblock %}

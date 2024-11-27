@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% block title %}
+    <title>Все заказы</title>
+    {% endblock title %}
+    {% block content %}
+    <style>
+        .orders-header{
+            display: flex;
+            justify-content: space-around;
+            flex-direction: row;
+        }
+        .order-items{
+            display: flex;
+            justify-content: space-around;
+            flex-direction: column;
+        }
+        .order-item{
+            display: flex;
+            justify-content: space-around;
+        }
+    
+    </style>
+    <div class="orders">
+        <div class="orders-header">
+            <div class="order-header">Номер заказа</div>
+            <div class="order-header">Пользователь</div>
+            <div class="order-header">Способ оплаты</div>
+            <div class="order-header">Способ доставки</div>
+            <div class="order-header">Дата создания</div>
+        </div>
+        <div class="order-items">
+        {% for order in orders %}
+            <div class="order-item">
+                <div class="order-number"><a href="{% url 'order_detail' order.number %}"> {{order.number}}</a></div>
+                <div class="order-гыук">{{order.user}}</div>
+                <div class="order-payment">{{order.payment}}</div>
+                <div class="order-delivery">{{order.delivery}}</div>
+                <div class="order-date">{{order.created_at}}</div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    
+   
+    {% endblock content %}

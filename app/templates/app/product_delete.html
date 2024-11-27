@@ -1,0 +1,20 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}
+<title>{{product.name}}</title>
+{% endblock title %}
+
+{% block content %}
+Вы действительно хотите удалить следующий товар?
+<br>
+<div>Наименование - {{product.name}}</div>
+<div>Описание - {{product.description}}</div>
+<div>Стоимость - {{product.price}}</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+</form>
+<a href="{% url 'products' %}">Отмена</a>
+
+{% endblock content %}

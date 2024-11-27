@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+<title>{{product.name}}</title>
+{% endblock title %}
+</head>
+<body>
+    {% block content %}
+
+<div>Наименование - {{product.name}}</div>
+<div>Описание - {{product.description}}</div>
+<div>Стоимость - {{product.price}}</div>
+
+<div>Краткая информация о товаре</div>
+<div>6 случайных товаров из этой категории</div>
+
+{% endblock content %}
+   
+    </body>
+</html>
