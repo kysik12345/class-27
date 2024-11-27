@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+{% block title %}
+<title>Заказ оформлен</title>
+{% endblock title %}
+
+{% block content %}
+<h2>Заказ {{order.number}} успешно создан {{order.created_at}}</h2>
+
+{% endblock content %}
